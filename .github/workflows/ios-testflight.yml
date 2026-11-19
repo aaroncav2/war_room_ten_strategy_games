@@ -62,6 +62,34 @@ jobs:
         run: bash scripts/prepare.sh
 
       # Install Apple Distribution certificate
+      
+      - name: Verify Apple certificate
+        env:
+          IOS_CERTIFICATE_BASE64: ${{ secrets.IOS_CERTIFICATE_BASE64 }}
+          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          python3 - <<'PY'
+          import os, base64
+          from pathlib import Path
+
+          data = base64.b64decode(
+              os.environ["IOS_CERTIFICATE_BASE64"],
+              validate=True
+          )
+
+          Path("/tmp/test-certificate.p12").write_bytes(data)
+          print("Certificate decoded successfully.")
+          print("File size:", len(data), "bytes.")
+          PY
+
+          openssl pkcs12 \
+            -in /tmp/test-certificate.p12 \
+            -passin env:IOS_CERTIFICATE_PASSWORD \
+            -info -noout
+
+
       - name: Install Apple signing certificate
         run: |
           set -euo pipefail
