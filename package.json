@@ -1,0 +1,17 @@
+{
+  "name": "war-room-ios",
+  "version": "1.0.0",
+  "private": true,
+  "description": "War Room – Ten Strategy Games (iOS wrapper)",
+  "scripts": {
+    "sync": "cap sync ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/ios": "^8.6.2",
+    "@capacitor-community/admob": "^8.4.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.2"
+  }
+}
