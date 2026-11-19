@@ -45,14 +45,6 @@ if s2 != s:
         f.write(s2)
 print("Device family: iPhone only")
 
-if not release_found:
-    raise RuntimeError("App Release configuration was not found")
-
-with open(PBX, "w", encoding="utf-8") as f:
-    f.write(s)
-
-print("App Store signing configuration patched successfully")
-
 # App icon
 if os.path.exists(ICON_SRC):
     shutil.copyfile(ICON_SRC, ICON_DST)
