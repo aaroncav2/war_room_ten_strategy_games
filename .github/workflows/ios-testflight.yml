@@ -36,7 +36,7 @@ jobs:
           for v in BUNDLE_ID ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8 TEAM_ID \
                    IOS_CERTIFICATE_BASE64 IOS_CERTIFICATE_PASSWORD \
                    IOS_PROVISION_PROFILE_BASE64; do
-            [ -n "${!v}" ] || missing="$missing$v"
+            [ -n "${!v}" ] || missing="$missing $v"
           done
 
           if [ -n "$missing" ]; then
@@ -242,27 +242,35 @@ jobs:
 
           cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
           <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-            "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
           <dict>
             <key>method</key>
             <string>app-store-connect</string>
-
             <key>destination</key>
             <string>upload</string>
-
             <key>teamID</key>
             <string>${TEAM_ID}</string>
-
             <key>signingStyle</key>
             <string>manual</string>
-
             <key>signingCertificate</key>
             <string>Apple Distribution</string>
-
             <key>provisioningProfiles</key>
             <dict>
               <key>${BUNDLE_ID}</key>
               <string>${PROFILE_UUID}</string>
-            </
+            </dict>
+            <key>uploadSymbols</key>
+            <true/>
+          </dict>
+          </plist>
+          PLIST
+
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            -exportPath "$RUNNER_TEMP/export" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
+            -authenticationKeyPath "$KEY_PATH" \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            | tee "$RUNNER_TEMP/export.log" | tail -n 50
