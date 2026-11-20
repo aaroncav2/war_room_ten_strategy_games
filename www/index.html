@@ -53,6 +53,7 @@ svg{display:block}.mapbox svg{width:100%;height:auto}
 [hidden]{display:none!important}
 @keyframes shine{to{background-position:200% 0}}@keyframes mv{to{transform:translateX(-50%)}}@keyframes ping{from{transform:scale(1);opacity:.7}to{transform:scale(2.6);opacity:0}}
 @media (prefers-reduced-motion:reduce){.hero h1 b,.track,.pin .ring{animation:none}}
+#bSfx,#bSfx2{display:none!important}
 </style></head><body>
 <div id="hub"><div class="wrap">
 <section class="hero">
@@ -116,7 +117,7 @@ const sil=(n,x,y,s,op)=>`<g transform="translate(${x},${y}) scale(${s})" fill="#
 document.documentElement.style.setProperty('--ad-h',AD_H+'px');
 const adslot=document.getElementById('adslot');
 const ST={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-let PR=ST.get('wr_prog',{}),CFG=Object.assign({sfx:true},ST.get('wr_cfg',{}),{music:false,voice:false}),FILT='all',CUR=null;
+let PR=ST.get('wr_prog',{}),CFG=Object.assign({sfx:true},ST.get('wr_cfg',{}),{sfx:false,music:false,voice:false}),FILT='all',CUR=null;
 const G=[
 {id:'rev',t:'Birth of a Nation',w:'American Revolutionary War',y:'1775–1783',ll:[-72,42],e:'early',ic:'🔔',c:'#2f5fcf',b:'Patriots, the Crown, France, or Loyalists, Native nations and enslaved people.'},
 {id:'civ',t:'Divided Union',w:'American Civil War',y:'1861–1865',ll:[-84,34],e:'early',ic:'⚔️',c:'#8a6a1f',b:'The Union, the Confederacy, Britain and France, or the freedom movement.'},
